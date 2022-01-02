@@ -1,0 +1,74 @@
+@extends('admin.layouts.app')
+
+@section('head-tag')
+<title>ادمین | اساتید</title>
+<!-- DataTables -->
+<link href="<?= asset('panel/assets/plugins/datatables/jquery.dataTables.min.css') ?>" rel="stylesheet" type="text/css" />
+@endsection
+
+@section('content')
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>نام</th>
+                        <th>نام خانوادگی</th>
+                        <th>ایمیل</th>
+                        <th>عکس</th>
+                        <th>وضعیت</th>
+                        <th>تایید ایمیل</th>
+                        <th class="sorting_disable">فعالیت</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($professors as $professor) { ?>
+                        <tr>
+                            <td><?= $professor->id ?></td>
+                            <td><?= $professor->first_name ?></td>
+                            <td><?= $professor->last_name ?></td>
+                            <td><?= $professor->email ?></td>
+                            <td><img src="<?= $professor->image['small'] ?>" alt="" width="60" height="60"></td>
+                            <td><?= $professor->status == 1 ? '<span class="text-success">فعال</span>' : '<span class="text-warning">غیر فعال</span>'; ?></td>
+                            <td><?= $professor->is_active == 1 ? '<span class="text-success">تایید شده</span>' : '<span class="text-warning">تایید نشده</span>'; ?></td>
+                            <td class="actions d-flex align-items-center justify-content-space-around">
+                                <a href="<?= route('admin.professor.change.status', [$professor->id]) ?>">
+                                    <?= $professor->status == 1 ? '<button class="btn btn-warning" >غیر فعال کردن</button>' : ' <button class="btn btn-success" >فعال کردن</button>' ?>
+
+                                </a>
+                                <a href="<?= route('admin.professor.edit', [$professor->id]) ?>"><i class="fa fa-pencil text-success fs-18"></i></a>
+                                <form action="<?= route('admin.professor.delete', [$professor->id]) ?>" method="post">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <button type="submit" onclick="return confirm('میخوای استاد  <?= $professor->first_name . ' ' . $professor->last_name ?> رو حذف کنی؟')" class="btn btn-danger fs-15">
+                                        <i class="fa fa-trash-o text-white"></i>
+                                    </button>
+                                </form>
+
+                            </td>
+                        </tr>
+
+                    <?php } ?>
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </div><!-- end col -->
+</div>
+@endsection
+
+@section('script')
+<!-- Datatables-->
+<script src="<?= asset('panel/assets/plugins/datatables/jquery.dataTables.min.js') ?>"></script>
+<script src="<?= asset('panel/assets/plugins/datatables/dataTables.bootstrap.js') ?>"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#datatable-responsive').DataTable();
+    });
+</script>
+@endsection
