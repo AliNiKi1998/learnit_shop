@@ -140,7 +140,7 @@ Route::get('/cart/remove/{id}', 'Home\CartController@remove', 'home.cart.remove'
 Route::get('/admin/news-latter', 'Admin\NewsLatterController@index', 'admin.news.latter');
 
 
-//test
+//payment
 Route::put('/payment', 'Home\CartController@payment', 'user.payment');
 Route::get('/payment/request/{amount}', 'Auth\PaymentRequestController@request', 'user.payment.request');
 Route::get('/payment/verify', 'Auth\PaymentVerifyController@verify', 'user.payment.verify');
